@@ -10,5 +10,11 @@ namespace Business.Abstract
     {
         List<T> GetAll();
 
+        T GetById(int id);
+        bool Remove(T t);
+
+        void Add(T t);
     }
+
+
 }

@@ -21,10 +21,13 @@ namespace ConsoleUI
             brandService = new BrandService(new InMemoryBrandDal());
             colorService = new ColorService(new InMemoryColorDal());
 
-
+            Console.WriteLine("All cars we have...");
             PrintList(carService.GetAll());
+            Console.WriteLine("\nAll rent operations...");
             PrintList(rentService.GetAll());
+            Console.WriteLine("\nAll brands whose car we have...");
             PrintList(brandService.GetAll());
+            Console.WriteLine("\nAll cars of colors we have...");
             PrintList(colorService.GetAll());
 
             carService.Add(new Car
@@ -39,14 +42,26 @@ namespace ConsoleUI
                 ModelYear = 2019,
                 WheelDrive = Wheel.fourwd
             });
-
+            Console.WriteLine("\nAfter addition of new car, search for the new car whose id is 15...");
             PrintList(new List<Car> { carService.GetById(15) });
+            Console.WriteLine();
+            Console.WriteLine("\nSearch for availible cars for rent:");
+            PrintList(carService.GetAvailibleCars());
+            Console.WriteLine("\nSearch cars by their brand names or models containing 'oyo'...");
+            PrintList(carService.GetByProp("oyo"));
+            Console.WriteLine("\nSearch cars by their brand names or models containing 'Megane'...");
+            PrintList(carService.GetByProp("Megane"));
+            Console.WriteLine("\nSearch cars by their brand names or models containing 'or'...");
+            PrintList(carService.GetByProp("or"));
+            Console.WriteLine("\nSearch cars by their model years which are 2021...");
+            PrintList(carService.GetByProp(2021));
+
 
         }
 
         public static void PrintList(List<Car> cars)
         {
-            Console.WriteLine("\n...............Cars found in the list................");
+            Console.WriteLine("...............Cars found in the list................");
             string carInfo = "";
             Brand brand;
             foreach (var t in cars)
@@ -56,23 +71,24 @@ namespace ConsoleUI
                     colorService.GetById(t.ColorId).Name+ " " + t.FuelType + " " + t.GearType + "gear Price: " + t.DailyPrice + "TL/day";
                 Console.WriteLine(carInfo);
             }
+            Console.WriteLine("{0} cars found...", cars.Count);
         }
 
         public static void PrintList(List<Brand> brands)
         {
-            Console.WriteLine("\n...............Brand and model names found in the list................");
+            Console.WriteLine("...............Brand and model names found in the list................");
             foreach (var b in brands) Console.WriteLine(b.Name + " " + b.Model);
         }
 
         public static void PrintList(List<Color> colors)
         {
-            Console.WriteLine("\n...............Availible colors in the list................");
+            Console.WriteLine("...............Availible colors in the list................");
             foreach (var color in colors) Console.WriteLine(color.Name);
         }
 
         public static void PrintList(List<Rent> rents)
         {
-            Console.WriteLine("\n...............Car rent information found in the list................");
+            Console.WriteLine("...............Car rent information found in the list................");
             string rentInfo = "";
             Brand brand;
             Car car;
@@ -82,7 +98,7 @@ namespace ConsoleUI
                 brand = brandService.GetById(car.BrandID);
                 rentInfo = rent.Id + " " + brand.Name + " " + brand.Model + 
                     " Rent date: " + rent.RentDate + " Return date " + 
-                    (rent.ActualReturnDate == null ? rent.EstimatedReturnDate : rent.ActualReturnDate).Date;
+                    (rent.ActualReturnDate == null ? rent.EstimatedReturnDate : rent.ActualReturnDate);
                 Console.WriteLine(rentInfo);
             }
         }

@@ -33,6 +33,8 @@ namespace DataAccess.Concrete.InMemory
                     EstimatedReturnDate = new DateTime(2021, 1, 10), ActualReturnDate = new DateTime(2021, 1, 10)},
                 new Rent { Id = 9, CarId = 9, RentDate = new DateTime(2020, 7, 30),
                     EstimatedReturnDate = new DateTime(2020, 9, 30), ActualReturnDate = new DateTime(2020, 9, 30)},
+                new Rent { Id = 10, CarId = 1, RentDate = new DateTime(2020, 12, 30),
+                    EstimatedReturnDate = new DateTime(2021, 4, 30)}
             };
         }
         public void Add(Rent rent)
@@ -68,5 +70,6 @@ namespace DataAccess.Concrete.InMemory
             }
             else return false;
         }
+
     }
 }

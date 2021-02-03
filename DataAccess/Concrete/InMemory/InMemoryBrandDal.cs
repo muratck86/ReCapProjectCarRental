@@ -17,7 +17,7 @@ namespace DataAccess.Concrete.InMemory
             {
                 new Brand { Id = 1, Name = "Hyundai", Model = "Tucson"},
                 new Brand { Id = 2, Name = "Toyota", Model = "Corolla"},
-                new Brand { Id = 6, Name = "Tesla", Model = "Model X"},
+                new Brand { Id = 6, Name = "Tesla", Model = "Model 3"},
                 new Brand { Id = 5, Name = "Mercedes", Model = "AMG"},
                 new Brand { Id = 3, Name = "Renault", Model = "Megane"},
                 new Brand { Id = 4, Name = "Ford", Model = "Focus"},

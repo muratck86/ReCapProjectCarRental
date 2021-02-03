@@ -10,9 +10,9 @@ namespace Business.Concrete
 {
     public class CarService : IVehicleRentalService<Car>
     {
-        ICarRentalDal<Car> _carDal;
+        ICarDal _carDal;
 
-        public CarService(ICarRentalDal<Car> carRentDal)
+        public CarService(ICarDal carRentDal)
         {
             _carDal = carRentDal;
         }
@@ -33,6 +33,31 @@ namespace Business.Concrete
         public void Add(Car car)
         {
             _carDal.Add(car);
+        }
+
+        public List<Car> GetAvailibleCars()
+        {
+            return _carDal.GetAvailibleCars();
+        }
+
+        public bool IsAvailible(Car car)
+        {
+            return _carDal.IsAvailible(car);
+        }
+
+        public List<Car> GetByProp(Color color)
+        {
+            return _carDal.GetByProp(color);
+        }
+
+        public List<Car> GetByProp(string partOfBrandName)
+        {
+            return _carDal.GetByProp(partOfBrandName);
+        }
+
+        public List<Car> GetByProp(int modelYear)
+        {
+            return _carDal.GetByProp(modelYear);
         }
 
     }
