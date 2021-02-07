@@ -6,15 +6,8 @@ using System.Text;
 
 namespace DataAccess.Abstract
 {
-    public interface ICarRentalDal<T>
+    public interface IRentDal : IEntityRepository<Rent> 
     {
-        List<T> GetAll();
-        T GetById(int Id);
 
-        void Add(T t);
-
-        bool Remove(T t);
-
-        bool Update(T t);
     }
 }

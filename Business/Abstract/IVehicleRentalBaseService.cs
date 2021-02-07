@@ -6,14 +6,9 @@ using System.Text;
 
 namespace Business.Abstract
 {
-    public interface IVehicleRentalService<T>
+    public interface IVehicleRentalBaseService<T> where T: class, IEntity
     {
-        List<T> GetAll();
 
-        T GetById(int id);
-        bool Remove(T t);
-
-        void Add(T t);
     }
 
 

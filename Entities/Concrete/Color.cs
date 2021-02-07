@@ -9,8 +9,8 @@ namespace Entities.Concrete
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int RGBValue { get; set; }
-        public bool IsMetalic { get; set; }
+        public string RGBValue { get; set; }
+        public bool Metalic { get; set; }
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntitFramework;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -7,30 +8,31 @@ using System.Text;
 
 namespace Business.Concrete
 {
-    public class ColorService : IVehicleRentalService<Color>
+    public class ColorService : IColorService
     {
-        ICarRentalDal<Color> _colors;
-        public ColorService(ICarRentalDal<Color> carRentalDal)
+        IColorDal _colorDal;
+        public ColorService(IColorDal colorDal)
         {
-            _colors = carRentalDal;
+            _colorDal = colorDal;
         }
         public List<Color> GetAll()
         {
-            return _colors.GetAll();
+            return _colorDal.GetAll();
         }
 
         public Color GetById(int id)
         {
-            return _colors.GetById(id);
+            return _colorDal.Get(c => c.Id == id);
         }
-        public bool Remove(Color color)
+        public void Remove(Color color)
         {
-            return _colors.Remove(color);
+            _colorDal.Delete(color);
         }
 
         public void Add(Color color)
         {
-            _colors.Add(color);
+            _colorDal.Add(color);
         }
+
     }
 }

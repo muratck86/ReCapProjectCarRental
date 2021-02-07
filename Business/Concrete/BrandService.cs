@@ -5,15 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Business
+namespace Business.Concrete
 {
-    public class BrandService : IVehicleRentalService<Brand>
+    public class BrandService : IBrandService
     {
-        ICarRentalDal<Brand> _brandDal;
-        public BrandService(ICarRentalDal<Brand> carRentalDal)
+        IBrandDal _brandDal;
+        public BrandService(IBrandDal brandDal)
         {
-            _brandDal = carRentalDal;
+            _brandDal = brandDal;
         }
+
         public List<Brand> GetAll()
         {
             return _brandDal.GetAll();
@@ -21,11 +22,11 @@ namespace Business
 
         public Brand GetById(int id)
         {
-            return _brandDal.GetById(id);
+            return _brandDal.Get(p => p.Id == id);
         }
-        public bool Remove(Brand brand)
+        public void Remove(Brand brand)
         {
-            return _brandDal.Remove(brand);
+            _brandDal.Delete(brand);
         }
 
         public void Add(Brand brand)

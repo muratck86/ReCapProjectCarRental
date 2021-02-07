@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Business.Concrete
 {
-    public class CarService : IVehicleRentalService<Car>
+    public class CarService : ICarService
     {
         ICarDal _carDal;
 
@@ -23,42 +23,29 @@ namespace Business.Concrete
 
         public Car GetById(int id)
         {
-            return _carDal.GetById (id);
+            return _carDal.Get (p => p.Id == id);
         }
-        public bool Remove(Car car)
+        public void Remove(Car car)
         {
-            return _carDal.Remove(car);
+            _carDal.Delete(car);
         }
 
         public void Add(Car car)
         {
-            _carDal.Add(car);
+            if(car.DailyPrice > 0 && car.BodyType.Length >= 2)
+                _carDal.Add(car);
+            else
+                Console.WriteLine("invalid property value...");
         }
 
-        public List<Car> GetAvailibleCars()
+        public List<Car> GetCarsByBrandId(int brandId)
         {
-            return _carDal.GetAvailibleCars();
+            return _carDal.GetAll(c => c.BrandID == brandId);
         }
 
-        public bool IsAvailible(Car car)
+        public List<Car> GetCarsByColorId(int colorId)
         {
-            return _carDal.IsAvailible(car);
+            return _carDal.GetAll(c => c.ColorId == colorId);
         }
-
-        public List<Car> GetByProp(Color color)
-        {
-            return _carDal.GetByProp(color);
-        }
-
-        public List<Car> GetByProp(string partOfBrandName)
-        {
-            return _carDal.GetByProp(partOfBrandName);
-        }
-
-        public List<Car> GetByProp(int modelYear)
-        {
-            return _carDal.GetByProp(modelYear);
-        }
-
     }
 }

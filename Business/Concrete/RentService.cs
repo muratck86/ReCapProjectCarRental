@@ -7,10 +7,10 @@ using Entities.Concrete;
 
 namespace Business.Concrete
 {
-    public class RentService : IVehicleRentalService<Rent>
+    public class RentService : IRentService
     {
-        ICarRentalDal<Rent> _rentDal;
-        public RentService(ICarRentalDal<Rent> carRentDal)
+        IRentDal _rentDal;
+        public RentService(IRentDal carRentDal)
         {
             _rentDal = carRentDal;
         }
@@ -21,16 +21,21 @@ namespace Business.Concrete
 
         public Rent GetById(int id)
         {
-            return _rentDal.GetById(id);
+            return _rentDal.Get(r => r.Id == id);
         }
-        public bool Remove(Rent rent)
+        public void Remove(Rent rent)
         {
-            return _rentDal.Remove(rent);
+            _rentDal.Delete(rent);
         }
 
         public void Add(Rent rent)
         {
             _rentDal.Add(rent);
+        }
+
+        public List<Rent> GetAllNotReturned(DateTime lateReturnFromDate)
+        {
+            return _rentDal.GetAll(r => r.EstReturnDate < lateReturnFromDate && r.ActReturnDate == null);
         }
     }
 }
