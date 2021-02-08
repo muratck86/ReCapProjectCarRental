@@ -1,6 +1,6 @@
 ﻿using Business;
 using Business.Concrete;
-using DataAccess.Concrete.InMemory;
+//using DataAccess.Concrete.InMemory;
 using Entities.Abstract;
 using Entities.Concrete;
 using System;
@@ -8,14 +8,14 @@ using System.Collections.Generic;
 
 namespace ConsoleUI
 {
-    //public class ProgramEx
-    //{
+    public class ProgramEx
+    {
     //    static BrandService brandService;
     //    static CarService carService;
     //    static RentService rentService;
     //    static ColorService colorService;
-    //    static void Main(string[] args)
-    //    {
+        static void Main(string[] args)
+        {
     //        carService = new CarService(new InMemoryCarDal());
     //        rentService = new RentService(new InMemoryRentDal());
     //        brandService = new BrandService(new InMemoryBrandDal());
@@ -101,7 +101,7 @@ namespace ConsoleUI
     //                (rent.ActualReturnDate == null ? rent.EstimatedReturnDate : rent.ActualReturnDate);
     //            Console.WriteLine(rentInfo);
     //        }
-    //    }
+        }
 
-    //}
+    }
 }

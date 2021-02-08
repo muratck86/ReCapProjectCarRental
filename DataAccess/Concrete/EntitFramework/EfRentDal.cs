@@ -1,5 +1,8 @@
-﻿using DataAccess.Abstract;
+﻿using Core.DataAccess.EntityFramework;
+using Core.Entities;
+using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,49 +12,65 @@ using System.Text;
 
 namespace DataAccess.Concrete.EntitFramework
 {
-    public class EfRentDal : IRentDal
+    public class EfRentDal : EfEntityRepositoryBase<Rent, CarRentCompanyContext>, IRentDal
     {
-        public void Add(Rent rent)
+        public List<RentDetailDto> GetRentDetailsOfReal(Expression<Func<Rent, bool>> filter = null)
         {
             using (CarRentCompanyContext context = new CarRentCompanyContext())
             {
-                context.Entry(rent).State = EntityState.Added;
-                context.SaveChanges();
+                var resultList = from r in filter == null ?
+                    context.Set<Rent>() : context.Set<Rent>().Where(filter)
+                                 join rc in context.RealCustomers on r.CustomerId equals rc.Id
+                                 join c in context.Cars on r.CarId equals c.Id
+                                 join b in context.Brands on c.BrandID equals b.Id
+                                 select new RentDetailDto
+                                 {
+                                     Id = r.Id,
+                                     CarDetails = " " + c.Plate + " " + b.Name + " " + b.Name,
+                                     Customer = rc.FirstName + " " + rc.LastName,
+
+                                     RentDate = r.RentDate,
+                                     EstReturnDate = r.EstReturnDate,
+                                     ActReturnDate = r.ActReturnDate
+                                 };
+                return resultList.ToList();
             }
         }
 
-        public void Delete(Rent rent)
-        {
-            using (CarRentCompanyContext context  = new CarRentCompanyContext())
-            {
-                context.Entry(rent).State = EntityState.Deleted;
-                context.SaveChanges();
-            }
-        }
-
-        public Rent Get(Expression<Func<Rent, bool>> filter)
-        {
-            using (CarRentCompanyContext context = new CarRentCompanyContext())
-            {
-                return context.Set<Rent>().SingleOrDefault(filter);
-            }
-        }
-
-        public List<Rent> GetAll(Expression<Func<Rent, bool>> filter = null)
+        public List<RentDetailDto> GetRentDetailsOfLegal(Expression<Func<Rent, bool>> filter = null)
         {
             using (CarRentCompanyContext context = new CarRentCompanyContext())
             {
-                return filter == null ?
-                    context.Set<Rent>().ToList() : context.Set<Rent>().Where(filter).ToList();
+                var resultList = from r in filter == null ?
+                    context.Set<Rent>() : context.Set<Rent>().Where(filter)
+                                 join lc in context.LegalCustomers on r.CustomerId equals lc.Id
+                                 join c in context.Cars on r.CarId equals c.Id
+                                 join b in context.Brands on c.BrandID equals b.Id
+                                 select new RentDetailDto
+                                 {
+                                     Id = r.Id,
+                                     CarDetails = " " + c.Plate + " " + b.Name + " " + b.Name,
+                                     Customer = lc.CompanyName,
+                                     RentDate = r.RentDate,
+                                     EstReturnDate = r.EstReturnDate,
+                                     ActReturnDate = r.ActReturnDate
+                                 };
+                return resultList.ToList();
             }
         }
 
-        public void Update(Rent rent)
+        public List<RentDetailDto> GetRentDetails(Expression<Func<Rent, bool>> filter = null)
         {
             using (CarRentCompanyContext context = new CarRentCompanyContext())
             {
-                context.Entry(rent).State = EntityState.Modified;
-                context.SaveChanges();
+                var real = GetRentDetailsOfReal(filter);
+                var legal = GetRentDetailsOfLegal(filter);
+
+                foreach (var item in legal)
+                {
+                    real.Add(item);
+                }
+                return real;
             }
         }
     }

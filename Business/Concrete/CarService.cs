@@ -1,7 +1,7 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
-using Entities.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,10 +20,13 @@ namespace Business.Concrete
         {
             return _carDal.GetAll();
         }
-
+        public Car Get(Car car)
+        {
+            return _carDal.Get(c => c.Id == car.Id);
+        }
         public Car GetById(int id)
         {
-            return _carDal.Get (p => p.Id == id);
+            return _carDal.Get (c => c.Id == id);
         }
         public void Remove(Car car)
         {
@@ -37,7 +40,10 @@ namespace Business.Concrete
             else
                 Console.WriteLine("invalid property value...");
         }
-
+        public void Update(Car car)
+        {
+            _carDal.Update(car);
+        }
         public List<Car> GetCarsByBrandId(int brandId)
         {
             return _carDal.GetAll(c => c.BrandID == brandId);
@@ -46,6 +52,11 @@ namespace Business.Concrete
         public List<Car> GetCarsByColorId(int colorId)
         {
             return _carDal.GetAll(c => c.ColorId == colorId);
+        }
+
+        public List<CarDetailDTO> GetCarDetails()
+        {
+            return _carDal.GetCarDetails();
         }
     }
 }

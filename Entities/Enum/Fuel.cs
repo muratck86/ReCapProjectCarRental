@@ -7,11 +7,11 @@ namespace Entities.Abstract
 {
     public enum Fuel
     {
-        Gas,
-        [Description("Gas&LPG")] GasLPG,
-        Diesel,
-        Hybrid,
-        Electric,
-        Hydrogen
+        Gas, //0
+        [Description("Gas&LPG")] GasLPG, //1
+        Diesel, //2
+        Hybrid, //3
+        Electric, //4
+        Hydrogen //5
     }
 }

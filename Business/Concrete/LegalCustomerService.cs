@@ -18,22 +18,30 @@ namespace Business.Concrete
 
         public void Add(LegalCustomer legalCustomer)
         {
-            throw new NotImplementedException();
+            _legalCustomerDal.Add(legalCustomer);
         }
 
         public List<LegalCustomer> GetAll()
         {
             return _legalCustomerDal.GetAll();
         }
-
+        public LegalCustomer Get(LegalCustomer legalCustomer)
+        {
+            return GetById(legalCustomer.Id);
+        }
         public LegalCustomer GetById(int id)
         {
-            throw new NotImplementedException();
+            return _legalCustomerDal.Get(l => l.Id == id);
         }
 
         public void Remove(LegalCustomer legalCustomer)
         {
-            throw new NotImplementedException();
+            _legalCustomerDal.Delete(legalCustomer);
+        }
+
+        public void Update(LegalCustomer legalCustomer)
+        {
+            _legalCustomerDal.Update(legalCustomer);
         }
     }
 }

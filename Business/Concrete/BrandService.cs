@@ -1,7 +1,6 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,6 +12,10 @@ namespace Business.Concrete
         public BrandService(IBrandDal brandDal)
         {
             _brandDal = brandDal;
+        }
+        public Brand Get(Brand brand)
+        {
+            return _brandDal.Get(b => b.Id == brand.Id);
         }
 
         public List<Brand> GetAll()
@@ -32,6 +35,11 @@ namespace Business.Concrete
         public void Add(Brand brand)
         {
             _brandDal.Add(brand);
+        }
+
+        public void Update(Brand brand)
+        {
+            _brandDal.Update(brand);
         }
     }
 }

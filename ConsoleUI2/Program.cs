@@ -14,66 +14,89 @@ namespace ConsoleUI2
             IBrandService brandService = new BrandService(new EfBrandDal());
             IRentService rentService = new RentService(new EfRentDal());
             IColorService colorService = new ColorService(new EfColorDal());
-            IRealCustomerService realCustomerService = 
+            IRealCustomerService realCustomerService =
                 new RealCustomerService(new EfRealCustomerDal());
             ILegalCustomerService legalCustomerService =
                 new LegalCustomerService(new EfLegalCustomerDal());
 
-            //Not retuned overdue rent
-            //var liste = rentService.GetAllNotReturned(DateTime.Now);
-            //Console.WriteLine("Car Plate  Rent Date\tEstReturn Date");
-            //var dt = new DateTime(2020, 12, 10);
-            //foreach (var rent in rentService.GetAllNotReturned(DateTime.Now))
+
+            ////Complete  RentDetailDto.........
+            //foreach (var rent in rentService.GetRentDetails())
             //{
-            //    Console.WriteLine(
-            //        carService.GetById(rent.CarId).Plate + "\t"
-            //        + rent.RentDate + "\t"
-            //        + rent.EstReturnDate);
+            //    Console.WriteLine("{0} {1} {2} {3} {4} {5}", rent.Id, rent.Customer, rent.CarDetails,
+            //        rent.RentDate, rent.EstReturnDate, rent.ActReturnDate);
             //}
+            //Console.WriteLine("Total of {0} cars in the list", rentService.GetRentDetails().Count);
 
-
-            //Brands
-            //Console.WriteLine("Brands.....................................");
-            //foreach (var brand in brandService.GetAll())
+            ////Complete  RentDetailDto.........
+            //foreach (var rent in rentService.GetRentDetailsOfLegal())
             //{
-            //    Console.WriteLine(brand.Name + " "+ brand.Model);
+            //    Console.WriteLine("{0} {1} {2} {3} {4} {5}", rent.Id, rent.Customer, rent.CarDetails,
+            //        rent.RentDate, rent.EstReturnDate, rent.ActReturnDate);
             //}
+            //Console.WriteLine("Total of {0} cars in the list", rentService.GetRentDetailsOfLegal().Count);
 
-            //Cars
-            //Console.WriteLine("Car Inventory.....................................");
-            //foreach (var car in carService.GetAll())
+            ////Complete  RentDetailDto.........
+            //foreach (var rent in rentService.GetRentDetailsOfReal())
             //{
-            //    Console.WriteLine(car.Id + " " + car.BodyType);
+            //    Console.WriteLine("{0} - {1} - {2} - {3} - {4} - {5}", rent.Id, rent.Customer, rent.CarDetails,
+            //        rent.RentDate, rent.EstReturnDate, rent.ActReturnDate);
             //}
+            //Console.WriteLine("Total of {0} cars in the list", rentService.GetRentDetailsOfReal().Count);
+            
+            //RentDetailsDtoTest(rentService);
+            //CarDetailsDtoTest(carService);
+            //BrandServiceTest(brandService);
+            //CarServiceTest(carService);
+            //ColorServiceTest(colorService);
+            //CustomerServiceTest(realCustomerService, legalCustomerService);
+            //RentServiceTest(rentService);
+            //AddNewRentTest(rentService);
+            //DeleteRentTest(rentService);
 
-            //Colors
-            //Console.WriteLine("Availible colors.....................................");
-            //foreach (var color in colorService.GetAll())
-            //{
-            //    Console.WriteLine(color.Id + " " + color.Name +" " + (color.Metalic == true ? "Metalic" : ""));
-            //}
+        }
 
-            //Customers
-            //Console.WriteLine("Customer List.....................................");
-            //foreach (var customer in realCustomerService.GetAll())
-            //{
-            //    Console.WriteLine(customer.Id + " " + customer.FirstName + " " + customer.LastName);
-            //}
+        private static void RentDetailsDtoTest(IRentService rentService)
+        {
+            var rentDetails = rentService.GetAllNotReturned(DateTime.Now);
+            foreach (var rent in rentDetails)
+            {
+                Console.WriteLine("{0} - {1} - {2} - {3} - {4} - {5}", rent.Id, rent.Customer, rent.CarDetails,
+                                    rent.RentDate, rent.EstReturnDate, rent.ActReturnDate);
+            }
+            Console.WriteLine("Total of {0} cars in the list", rentDetails.Count);
+        }
 
-            //foreach (var customer in legalCustomerService.GetAll())
-            //{
-            //    Console.WriteLine(customer.Id + " " + customer.CompanyName);
-            //}
+        private static void CarDetailsDtoTest(ICarService carService)
+        {
+            //GetCarDetails...
+            foreach (var car in carService.GetCarDetails())
+            {
+                Console.WriteLine("{0} {1} {2} {3} {4} {5} {6}--------{7}TL/day",
+                    car.Id,
+                    car.BrandName,
+                    car.ModelName,
+                    car.FuelType,
+                    car.ColorName,
+                    car.Metalic == true ? "Metalic" : "",
+                    car.ModelYear,
+                    car.DailyPrice);
+            }
+            Console.WriteLine("Total of {0} cars in the list", carService.GetCarDetails().Count);
+        }
 
-            //Rents
-            //Console.WriteLine("Rent entries.....................................");
-            //Console.WriteLine(rentService.GetAll().Count);
-            //foreach (var rent in rentService.GetAll())
-            //{
-            //    Console.WriteLine(rent.CarId + " " + rent.CustomerId + " " +
-            //        rent.RentDate + " " + rent.EstReturnDate + " " + rent.ActReturnDate);
-            //}
+        private static void DeleteRentTest(IRentService rentService)
+        {
+            //Delete a rent from the records...
+            rentService.Remove(new Rent()
+            {
+                Id = 1031
+            });
+        }
 
+        private static void AddNewRentTest(IRentService rentService)
+        {
+            //Add new rent......
             rentService.Add(new Rent()
             {
                 CarId = 106,
@@ -81,9 +104,61 @@ namespace ConsoleUI2
                 CustomerId = 109,
                 EstReturnDate = new DateTime(202, 1, 25)
             });
+        }
 
+        private static void RentServiceTest(IRentService rentService)
+        {
+            //Rents
+            Console.WriteLine("Rent entries.....................................");
+            foreach (var rent in rentService.GetAll())
+            {
+                Console.WriteLine(rent.CarId + " " + rent.CustomerId + " " +
+                    rent.RentDate + " " + rent.EstReturnDate + " " + rent.ActReturnDate);
+            }
+        }
 
+        private static void CustomerServiceTest(IRealCustomerService realCustomerService, ILegalCustomerService legalCustomerService)
+        {
+            //Customers
+            Console.WriteLine("Customer List.....................................");
+            foreach (var customer in realCustomerService.GetAll())
+            {
+                Console.WriteLine(customer.Id + " " + customer.FirstName + " " + customer.LastName);
+            }
+            foreach (var customer in legalCustomerService.GetAll())
+            {
+                Console.WriteLine(customer.Id + " " + customer.CompanyName);
+            }
+        }
 
+        private static void ColorServiceTest(IColorService colorService)
+        {
+            //Colors
+            Console.WriteLine("Availible colors.....................................");
+            foreach (var color in colorService.GetAll())
+            {
+                Console.WriteLine(color.Id + " " + color.Name + " " + (color.Metalic == true ? "Metalic" : ""));
+            }
+        }
+
+        private static void CarServiceTest(ICarService carService)
+        {
+            //Cars
+            Console.WriteLine("Car Inventory.....................................");
+            foreach (var car in carService.GetAll())
+            {
+                Console.WriteLine(car.Id + " " + car.BodyType);
+            }
+        }
+
+        private static void BrandServiceTest(IBrandService brandService)
+        {
+            //Brands
+            Console.WriteLine("Car Brands In the database.................................");
+            foreach (var brand in brandService.GetAll())
+            {
+                Console.WriteLine(brand.Name + " " + brand.Model);
+            }
         }
     }
 }

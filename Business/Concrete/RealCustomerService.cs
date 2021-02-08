@@ -1,6 +1,5 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
-using Entities.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -19,6 +18,11 @@ namespace Business.Concrete
 
         public void Add(RealCustomer realCustomer)
         {
+            _customerServiceDal.Add(realCustomer);
+        }
+
+        public RealCustomer Get(RealCustomer entity)
+        {
             throw new NotImplementedException();
         }
 
@@ -29,12 +33,17 @@ namespace Business.Concrete
 
         public RealCustomer GetById(int id)
         {
-            throw new NotImplementedException();
+            return _customerServiceDal.Get(r => r.Id == id);
         }
 
         public void Remove(RealCustomer realCustomer)
         {
-            throw new NotImplementedException();
+            _customerServiceDal.Delete(realCustomer);
+        }
+
+        public void Update(RealCustomer realCustomer)
+        {
+            _customerServiceDal.Update(realCustomer);
         }
     }
 }

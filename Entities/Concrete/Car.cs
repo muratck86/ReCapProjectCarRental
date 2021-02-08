@@ -1,4 +1,4 @@
-﻿using Entities.Abstract;
+﻿using Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +17,6 @@ namespace Entities.Concrete
         public int ColorId { get; set; }
         public int ModelYear { get; set; }
         public decimal DailyPrice { get; set; }
-
         public string Descript { get; set; }
 
         //public Fuel FuelType { get; set; }
@@ -27,7 +26,6 @@ namespace Entities.Concrete
         //public Wheel WheelDrive { get; set; }
         public string FuelType { get; set; }
         public string BodyType { get; set; }
-
         public string GearType { get; set; }
         public string WheelDrive { get; set; }
 

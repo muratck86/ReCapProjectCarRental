@@ -4,8 +4,8 @@ namespace Entities.Abstract
 {
     public enum Gear
     {
-        Manual,
-        Auto,
-        [Description("Semi-Auto")] SemiAuto
+        Manual, //0
+        Auto, //1
+        [Description("Semi-Auto")] SemiAuto //2
     }
 }
