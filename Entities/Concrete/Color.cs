@@ -11,6 +11,5 @@ namespace Entities.Concrete
         public string Name { get; set; }
         public string RGBValue { get; set; }
         public bool Metalic { get; set; }
-
     }
 }

@@ -14,64 +14,28 @@ namespace DataAccess.Concrete.EntitFramework
 {
     public class EfRentDal : EfEntityRepositoryBase<Rent, CarRentCompanyContext>, IRentDal
     {
-        public List<RentDetailDto> GetRentDetailsOfReal(Expression<Func<Rent, bool>> filter = null)
-        {
-            using (CarRentCompanyContext context = new CarRentCompanyContext())
-            {
-                var resultList = from r in filter == null ?
-                    context.Set<Rent>() : context.Set<Rent>().Where(filter)
-                                 join rc in context.RealCustomers on r.CustomerId equals rc.Id
-                                 join c in context.Cars on r.CarId equals c.Id
-                                 join b in context.Brands on c.BrandID equals b.Id
-                                 select new RentDetailDto
-                                 {
-                                     Id = r.Id,
-                                     CarDetails = " " + c.Plate + " " + b.Name + " " + b.Name,
-                                     Customer = rc.FirstName + " " + rc.LastName,
-
-                                     RentDate = r.RentDate,
-                                     EstReturnDate = r.EstReturnDate,
-                                     ActReturnDate = r.ActReturnDate
-                                 };
-                return resultList.ToList();
-            }
-        }
-
-        public List<RentDetailDto> GetRentDetailsOfLegal(Expression<Func<Rent, bool>> filter = null)
-        {
-            using (CarRentCompanyContext context = new CarRentCompanyContext())
-            {
-                var resultList = from r in filter == null ?
-                    context.Set<Rent>() : context.Set<Rent>().Where(filter)
-                                 join lc in context.LegalCustomers on r.CustomerId equals lc.Id
-                                 join c in context.Cars on r.CarId equals c.Id
-                                 join b in context.Brands on c.BrandID equals b.Id
-                                 select new RentDetailDto
-                                 {
-                                     Id = r.Id,
-                                     CarDetails = " " + c.Plate + " " + b.Name + " " + b.Name,
-                                     Customer = lc.CompanyName,
-                                     RentDate = r.RentDate,
-                                     EstReturnDate = r.EstReturnDate,
-                                     ActReturnDate = r.ActReturnDate
-                                 };
-                return resultList.ToList();
-            }
-        }
-
         public List<RentDetailDto> GetRentDetails(Expression<Func<Rent, bool>> filter = null)
         {
             using (CarRentCompanyContext context = new CarRentCompanyContext())
             {
-                var real = GetRentDetailsOfReal(filter);
-                var legal = GetRentDetailsOfLegal(filter);
+                var resultList = from r in filter == null ?
+                                 context.Set<Rent>() : context.Set<Rent>().Where(filter)
+                                 join cu in context.Users on r.CustomerId equals cu.Id
+                                 join c in context.Cars on r.CarId equals c.Id
+                                 join b in context.Brands on c.BrandID equals b.Id
+                                 select new RentDetailDto
+                                 {
+                                     Id = r.Id,
+                                     CarDetails = " " + c.Plate + " " + b.Name + " " + b.Name,
+                                     Customer = cu.FirstName + " " + cu.LastName,
+                                     RentDate = r.RentDate,
+                                     EstReturnDate = r.EstReturnDate,
+                                     ActReturnDate = r.ActReturnDate
+                                 };
 
-                foreach (var item in legal)
-                {
-                    real.Add(item);
-                }
-                return real;
+                return resultList.ToList();
             }
         }
+
     }
 }

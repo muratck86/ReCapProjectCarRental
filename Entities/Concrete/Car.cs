@@ -28,7 +28,6 @@ namespace Entities.Concrete
         public string BodyType { get; set; }
         public string GearType { get; set; }
         public string WheelDrive { get; set; }
-
     }
 
 }
