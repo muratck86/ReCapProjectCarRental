@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System.Collections.Generic;
@@ -13,33 +15,48 @@ namespace Business.Concrete
         {
             _brandDal = brandDal;
         }
-        public Brand Get(Brand brand)
+
+        public IDataResult<Brand> Get(Brand brand)
         {
-            return _brandDal.Get(b => b.Id == brand.Id);
+            return GetById(brand.Id);
         }
 
-        public List<Brand> GetAll()
+        public IDataResult<List<Brand>> GetAll()
         {
-            return _brandDal.GetAll();
+            if (System.DateTime.Now.Hour == 22 || System.DateTime.Now.Hour == 23)
+            {
+                return new ErrorDataResult<List<Brand>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Messages.BrandsListed);
         }
 
-        public Brand GetById(int id)
+        public IDataResult<Brand> GetById(int id)
         {
-            return _brandDal.Get(p => p.Id == id);
+            if (System.DateTime.Now.Hour == 22 || System.DateTime.Now.Hour == 23)
+            {
+                return new ErrorDataResult<Brand>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<Brand>(_brandDal.Get(b => b.Id == id));
         }
-        public void Remove(Brand brand)
+
+        public IResult Remove(Brand brand)
         {
             _brandDal.Delete(brand);
+            return new Result(true, Messages.BrandDeleted);
         }
 
-        public void Add(Brand brand)
+        public IResult Add(Brand brand)
         {
+            if (brand.Name.Length < 2)
+                return new ErrorResult(Messages.ShortName);
             _brandDal.Add(brand);
+            return new SuccessResult(Messages.BrandAdded);
         }
 
-        public void Update(Brand brand)
+        public IResult Update(Brand brand)
         {
             _brandDal.Update(brand);
+            return new Result(true, Messages.BrandUpdated);
         }
     }
 }

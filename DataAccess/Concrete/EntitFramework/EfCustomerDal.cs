@@ -11,7 +11,7 @@ using System.Text;
 
 namespace DataAccess.Concrete.EntitFramework
 {
-    public class EfRealCustomerDal : EfEntityRepositoryBase<RealCustomer, CarRentCompanyContext>, IRealCustomerDal
+    public class EfCustomerDal : EfEntityRepositoryBase<Customer, CarRentCompanyContext>, ICustomerDal
     {
 
     }

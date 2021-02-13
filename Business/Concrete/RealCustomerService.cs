@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -9,41 +10,46 @@ namespace Business.Concrete
 {
     public class RealCustomerService : IRealCustomerService
     {
-        IRealCustomerDal _customerServiceDal;
+        ICustomerDal _customerServiceDal;
 
-        public RealCustomerService(IRealCustomerDal customerServiceDal)
+        public RealCustomerService(ICustomerDal customerServiceDal)
         {
             _customerServiceDal = customerServiceDal;
         }
 
-        public void Add(RealCustomer realCustomer)
+        public IResult Add(RealCustomer realCustomer)
         {
             _customerServiceDal.Add(realCustomer);
+            return new SuccessResult();
         }
 
-        public RealCustomer Get(RealCustomer entity)
+        public IDataResult<RealCustomer> Get(RealCustomer entity)
         {
-            throw new NotImplementedException();
+            return GetById(entity.Id);
         }
 
-        public List<RealCustomer> GetAll()
+        public IDataResult<List<RealCustomer>> GetAll()
         {
-            return _customerServiceDal.GetAll();
+            return new SuccessDataResult<List<RealCustomer>>(_customerServiceDal.GetAll());
         }
 
-        public RealCustomer GetById(int id)
+        public IDataResult<RealCustomer> GetById(int id)
         {
-            return _customerServiceDal.Get(r => r.Id == id);
+            return new SuccessDataResult<RealCustomer>(_customerServiceDal.Get(r => r.Id == id));
         }
 
-        public void Remove(RealCustomer realCustomer)
+        public IResult Remove(RealCustomer realCustomer)
         {
             _customerServiceDal.Delete(realCustomer);
+            return new SuccessResult();
+
         }
 
-        public void Update(RealCustomer realCustomer)
+        public IResult Update(RealCustomer realCustomer)
         {
             _customerServiceDal.Update(realCustomer);
+            return new SuccessResult();
+
         }
     }
 }
