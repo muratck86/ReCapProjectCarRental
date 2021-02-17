@@ -16,6 +16,7 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
+
         public IDataResult<Brand> Get(Brand brand)
         {
             return GetById(brand.Id);
@@ -32,10 +33,9 @@ namespace Business.Concrete
 
         public IDataResult<Brand> GetById(int id)
         {
-            if (System.DateTime.Now.Hour == 22 || System.DateTime.Now.Hour == 23)
-            {
-                return new ErrorDataResult<Brand>(Messages.MaintenanceTime);
-            }
+            var brand = _brandDal.Get(b => b.Id == id);
+            if (brand == null)
+                return new ErrorDataResult<Brand>(Messages.NoSuchBrand);
             return new SuccessDataResult<Brand>(_brandDal.Get(b => b.Id == id));
         }
 

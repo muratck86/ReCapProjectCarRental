@@ -27,6 +27,9 @@ namespace Business.Concrete
         }
         public IDataResult<Color> GetById(int id)
         {
+            var color = _colorDal.Get(b => b.Id == id);
+            if (color == null)
+                return new ErrorDataResult<Color>(Messages.NoSuchColor);
             return new SuccessDataResult<Color>(_colorDal.Get(c => c.Id == id));
         }
         public IResult Remove(Color color)

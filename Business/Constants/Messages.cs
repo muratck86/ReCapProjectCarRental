@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -24,5 +25,13 @@ namespace Business.Constants
         public static string RentAdded = "Rent Added";
         public static string RentDeleted = "Rent Deleted.";
         public static string RentUpdated = "Rent Updated";
+        public static string UserAdded = "User Added to database";
+        public static string UserUpdated = "User Updated";
+        public static string UserDeleted = "User Deleted";
+        public static string NoSuchBrand = "No such brand in the database";
+        public static string NoSuchRent = "No such rent in the database";
+        public static string NoSuchUser = "No such user in the database";
+        public static string NoSuchCustomer = "No such customer in the database";
+        public static string NoSuchColor = "No such color in the database";
     }
 }

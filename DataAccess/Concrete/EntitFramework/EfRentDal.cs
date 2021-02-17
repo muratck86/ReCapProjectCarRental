@@ -21,13 +21,16 @@ namespace DataAccess.Concrete.EntitFramework
                 var resultList = from r in filter == null ?
                                  context.Set<Rent>() : context.Set<Rent>().Where(filter)
                                  join cu in context.Users on r.CustomerId equals cu.Id
+                                 join comp in context.Customers on r.CustomerId equals comp.UserId into rc
+                                 from comp in rc.DefaultIfEmpty()
                                  join c in context.Cars on r.CarId equals c.Id
                                  join b in context.Brands on c.BrandID equals b.Id
                                  select new RentDetailDto
                                  {
                                      Id = r.Id,
                                      CarDetails = " " + c.Plate + " " + b.Name + " " + b.Name,
-                                     Customer = cu.FirstName + " " + cu.LastName,
+                                     UserName = cu.FirstName + " " + cu.LastName,
+                                     CompanyName = comp.CompanyName,
                                      RentDate = r.RentDate,
                                      EstReturnDate = r.EstReturnDate,
                                      ActReturnDate = r.ActReturnDate

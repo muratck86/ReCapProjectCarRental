@@ -5,8 +5,7 @@ using System.Text;
 
 namespace Business.Abstract
 {
-    public interface ILegalCustomerService : IVehicleRentalBaseService<LegalCustomer>
+    public interface IUserService : IVehicleRentalBaseService<User>
     {
-
     }
 }
