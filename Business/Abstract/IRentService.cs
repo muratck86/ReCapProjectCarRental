@@ -12,7 +12,7 @@ namespace Business.Abstract
     {
         IDataResult<List<RentDetailDto>> GetAllNotReturned(DateTime lateReturnFromDate);
         IDataResult<List<RentDetailDto>> GetRentDetails(Expression<Func<Rent, bool>> filter = null);
-        IDataResult<List<RentDetailDto>> GetRentDetailsOfLegal(Expression<Func<Rent, bool>> filter = null);
-        IDataResult<List<RentDetailDto>> GetRentDetailsOfReal(Expression<Func<Rent, bool>> filter = null);
+        IDataResult<List<Rent>> GetAllCurrentRents();
+        IDataResult<List<Rent>> GetAllAvailibleCars();
     }
 }
