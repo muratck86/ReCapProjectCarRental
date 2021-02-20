@@ -33,5 +33,6 @@ namespace Business.Constants
         public static string NoSuchUser = "No such user in the database";
         public static string NoSuchCustomer = "No such customer in the database";
         public static string NoSuchColor = "No such color in the database";
+        public static string InvalidCarPlate = "Invalid car plate";
     }
 }

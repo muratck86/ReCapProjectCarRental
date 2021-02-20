@@ -21,7 +21,6 @@ namespace WebAPI.Controllers
             _vehicleRentalBaseService = vehicleRentalBaseService;
         }
 
-
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
@@ -69,7 +68,7 @@ namespace WebAPI.Controllers
 
 
 
-        //Helper Method(and overloads) 1-For List of Entites
+        //Helper Method(and 2 overloads) 1-For List of Entites
         internal IActionResult GetIActionResult(IDataResult<List<T>> result)
         {
             if (result.Success && result.Data != null)
@@ -79,7 +78,7 @@ namespace WebAPI.Controllers
             return BadRequest(result); //400
         }
 
-        //2-Overload helper if data is an Entity
+        //Overload-2: if data is an Entity
         internal IActionResult GetIActionResult(IDataResult<T> result)
         {
             if (result.Success && result.Data != null)
@@ -89,7 +88,7 @@ namespace WebAPI.Controllers
             return BadRequest(result); //400
         }
 
-        //3-Overload method if there is no data.
+        //Overload-3: if there is no data.
         internal IActionResult GetIActionResult(IResult result)
         {
             if (result.Success)

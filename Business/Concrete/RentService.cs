@@ -5,6 +5,8 @@ using System.Linq.Expressions;
 using System.Text;
 using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -48,6 +50,7 @@ namespace Business.Concrete
             }
         }
 
+        [ValidationAspect(typeof(RentValidator))]
         public IResult Add(Rent rent)
         {
             _rentDal.Add(rent);
@@ -66,6 +69,7 @@ namespace Business.Concrete
             return GetById(rent.Id);
         }
 
+        [ValidationAspect(typeof(RentValidator))]
         public IResult Update(Rent rent)
         {
             _rentDal.Update(rent);
