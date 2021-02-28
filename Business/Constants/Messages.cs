@@ -40,5 +40,7 @@ namespace Business.Constants
         public static string ImageSavedAndAdded = "New image added";
         public static string MaxImageForACar = "Maximum imges for a car reached.";
         public static string ImageEntryNotDeletedFromDatabase = "Database Error: Couldn't delete database image entry";
+        public static string NotValidImageFileType = " file type is not supported, supported types: .jpg, .jpeg and .png";
+        public static string MultipleErrors = "Multiple errors occured.";
     }
 }

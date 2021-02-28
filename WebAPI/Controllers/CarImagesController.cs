@@ -28,7 +28,7 @@ namespace WebAPI.Controllers
             {
                 return StatusCode(201, result);
             }
-            return BadRequest();
+            return BadRequest(result);
         }
 
         [HttpPost("updateimage")]
