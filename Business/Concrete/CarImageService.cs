@@ -3,6 +3,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.DataAccess.FileIO;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -27,12 +28,13 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult AddImage(IFormFile image, CarImage carImage)
         {
-            string fileName = GenerateFileNameForCarId(carImage);
-            carImage.ImagePath = @"..\Entities\Images\" + fileName; ;
+            string fileName = GenerateFileNameForCarId(image, carImage);
+            carImage.ImagePath = @"..\Entities\Images\" + fileName;
             carImage.Date = DateTime.Now;
 
-            var check = CheckImageCountForCar(_carImageDal, carImage);
-            if (check)
+            var check = BusinessRules.Run(CheckImageCountForCar(_carImageDal, carImage),
+                CheckFileType(carImage));
+            if (check.Count == 0)
             {
                 var dalResult = Add(carImage);
                 if (dalResult.Success)
@@ -41,8 +43,12 @@ namespace Business.Concrete
                     return new SuccessResult(Messages.ImageSavedAndAdded);
                 }
                 return new ErrorResult(dalResult.Message);
+            } else if (check.Count == 1)
+            {
+                return check[0];
             }
-            return new ErrorResult(Messages.MaxImageForACar);
+
+            return new ErrorDataResult<List<IResult>>(check, Messages.MultipleErrors);
 
         }
 
@@ -104,22 +110,29 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ImageUpdated);
         }
 
-        public static string GenerateFileNameForCarId(CarImage carImage)
+        public static string GenerateFileNameForCarId(IFormFile image, CarImage carImage)
         {
-            var extension = new FileInfo(carImage.ImagePath).Extension;
+            var extension = new FileInfo(image.FileName).Extension;
             string randomName = Guid.NewGuid().ToString().Substring(0, 25);
             return carImage.CarId + "_" + randomName + extension;
         }
 
-        private static bool CheckImageCountForCar(ICarImageDal carImageDal, CarImage carImage)
+        private static IResult CheckImageCountForCar(ICarImageDal carImageDal, CarImage carImage)
         {
-            return carImageDal.GetAll(im => im.CarId == carImage.CarId).Count < 5;
+            if (carImageDal.GetAll(im => im.CarId == carImage.CarId).Count < 5)
+            {
+                return new SuccessResult();
+            }
+                return new ErrorResult(Messages.MaxImageForACar);
         }
 
-        private static bool CheckFileType(CarImage carImage)
+        private static IResult CheckFileType(CarImage carImage)
         {
             var extension = new FileInfo(carImage.ImagePath).Extension;
-            return (extension == ".jpg" || extension == ".jpeg" || extension == "png");
+            var check = (extension == ".jpg" || extension == ".jpeg" || extension == "png");
+            if (check)
+                return new SuccessResult();
+            return new ErrorResult(extension + Messages.NotValidImageFileType);
         }
 
     }
