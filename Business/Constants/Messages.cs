@@ -34,5 +34,11 @@ namespace Business.Constants
         public static string NoSuchCustomer = "No such customer in the database";
         public static string NoSuchColor = "No such color in the database";
         public static string InvalidCarPlate = "Invalid car plate";
+        public static string ImageAdded = "Image added";
+        public static string ImageDeleted = "Image deleted";
+        public static string ImageUpdated = "Image updated";
+        public static string ImageSavedAndAdded = "New image added";
+        public static string MaxImageForACar = "Maximum imges for a car reached.";
+        public static string ImageEntryNotDeletedFromDatabase = "Database Error: Couldn't delete database image entry";
     }
 }
