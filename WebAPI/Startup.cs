@@ -1,5 +1,6 @@
 using Business.Abstract;
 using Business.Concrete;
+using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntitFramework;
 using Microsoft.AspNetCore.Builder;
@@ -36,12 +37,24 @@ namespace WebAPI
             //services.AddSingleton<IBrandDal, EfBrandDal>();
             //services.AddSingleton<IColorService, ColorService>();
             //services.AddSingleton<IColorDal, EfColorDal>();
-            //services.AddSingleton<ICustomerService, CustomerService>();
-            //services.AddSingleton<ICustomerDal, EfCustomerDal>();
-            //services.AddSingleton<IRentService, RentService>();
-            //services.AddSingleton<IRentDal, EfRentDal>();
-            //services.AddSingleton<IUserService, UserService>();
-            //services.AddSingleton<IUserDal, EfUserDal>();
+
+            var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidIssuer = tokenOptions.Issuer,
+                        ValidAudience = tokenOptions.Audience,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+                    };
+                });
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            ServiceTool.Create(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +68,8 @@ namespace WebAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
