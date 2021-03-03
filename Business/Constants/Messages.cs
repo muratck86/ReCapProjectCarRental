@@ -1,6 +1,7 @@
 ﻿using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Business.Constants
@@ -42,5 +43,6 @@ namespace Business.Constants
         public static string ImageEntryNotDeletedFromDatabase = "Database Error: Couldn't delete database image entry";
         public static string NotValidImageFileType = " file type is not supported, supported types: .jpg, .jpeg and .png";
         public static string MultipleErrors = "Multiple errors occured.";
+        public static string AuthorizationDenied = "Authorization Denied";
     }
 }
