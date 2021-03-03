@@ -21,6 +21,12 @@ namespace Business.Concrete
             _userDal = userDal;
         }
 
+        public IDataResult<List<OperationClaim>> GetClaims(User user)
+        {
+            var result = _userDal.GetClaims(user);
+            return new SuccessDataResult<List<OperationClaim>>(result);
+        }
+
         [ValidationAspect(typeof(UserValidator))]
         public IResult Add(User entity)
         {
@@ -33,6 +39,12 @@ namespace Business.Concrete
                 return new ErrorResult(e.InnerException.Message);
             }
             
+        }
+
+        public IDataResult<User> GetByEMail(string email)
+        {
+            var result = _userDal.Get(u => u.Email == email);
+            return new SuccessDataResult<User>(result);
         }
 
         public IDataResult<User> Get(User entity)

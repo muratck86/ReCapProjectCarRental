@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Core.Entities.Concrete;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -44,5 +45,11 @@ namespace Business.Constants
         public static string NotValidImageFileType = " file type is not supported, supported types: .jpg, .jpeg and .png";
         public static string MultipleErrors = "Multiple errors occured.";
         public static string AuthorizationDenied = "Authorization Denied";
+        internal static string AccesstokenCreated;
+        internal static string UserAlreadyExists;
+        internal static User UserNotFound;
+        internal static User PasswordError;
+        internal static string SuccessfulLogin;
+        internal static string UserRegistered;
     }
 }
