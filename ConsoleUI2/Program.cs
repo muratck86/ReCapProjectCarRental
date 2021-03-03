@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Concrete;
+using Core.Entities.Concrete;
 using DataAccess.Concrete.EntitFramework;
 using Entities.Concrete;
 using System;
@@ -44,7 +45,6 @@ namespace ConsoleUI2
             FirstName = "Abbas",
             LastName = "Sağlam",
             Email = "abbasaga@gmail.com",
-            Password = "abbasaga123"
         };
         static Rent exRent = new Rent()
         {

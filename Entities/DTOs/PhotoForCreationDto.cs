@@ -10,6 +10,6 @@ namespace Entities.DTOs
     {
         public int Id { get; set; }
         public int CarId { get; set; }
-        public IFormFile MyProperty { get; set; }
+        public IFormFile CarImage { get; set; }
     }
 }
