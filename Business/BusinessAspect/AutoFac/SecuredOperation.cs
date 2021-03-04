@@ -19,7 +19,7 @@ namespace Business.BusinessAspect.AutoFac
         public SecuredOperation(string roles)
         {
             _roles = roles.Split(',');
-            _httpContextAccessor = ServiceTools.ServiceProvider.GetService<IHttpContextAccessor>();
+            _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
         }
 
         protected override void OnBefore(IInvocation invocation)

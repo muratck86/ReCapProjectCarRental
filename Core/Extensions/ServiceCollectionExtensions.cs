@@ -14,7 +14,7 @@ namespace Core.Extensions
             {
                 module.Load(serviceCollection);
             }
-            return ServiceTools.Create(serviceCollection);
+            return ServiceTool.Create(serviceCollection);
         }
     }
 }
