@@ -3,6 +3,7 @@ using Business.BusinessAspect.AutoFac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -66,6 +67,16 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ColorAdded);
 
         }
+
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Color color) //A mock method to show how transaction aspect is used
+        {
+            //Some parial operations that some particular data can be is changed but some of them can't, as a result we could have inconsistent data
+            //For example, in a banking system, send money to someone, so, subtract the sent amount from senders account, but assume an error happens
+            //when adding the amount the receivers account. Transaction Aspect interrupts the method and rolls back the entire operation in that case.
+            return null;
+        }
+
 
     }
 }
