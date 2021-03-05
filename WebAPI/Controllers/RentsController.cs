@@ -20,12 +20,13 @@ namespace WebAPI.Controllers
             _rentService = rentService;
         }
 
-        [HttpGet("getalnotreturned")]
+        [HttpGet("getallnotreturned")]
         public IActionResult GetAllNotReturned(DateTime lateReturnFromDate)
         {
             var result = _rentService.GetAllNotReturned(lateReturnFromDate);
             return GetIActionResult(result);
         }
+
         [HttpGet("getrentdetails")]
         public IActionResult GetRentDetails(Expression<Func<Rent, bool>> filter = null)
         {

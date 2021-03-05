@@ -6,6 +6,7 @@ using System.Text;
 using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -81,6 +82,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<RentDetailDto>>(_rentDal.GetRentDetails(filter));
         }
 
+        [PerformanceAspect(1)]
         public IDataResult<List<Rent>> GetAllCurrentRents()
         {
             return new SuccessDataResult<List<Rent>>(_rentDal.GetAll(r => r.ActReturnDate == null));
