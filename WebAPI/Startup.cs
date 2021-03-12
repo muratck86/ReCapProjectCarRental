@@ -44,7 +44,7 @@ namespace WebAPI
             //services.AddSingleton<IBrandDal, EfBrandDal>();
             //services.AddSingleton<IColorService, ColorService>();
             //services.AddSingleton<IColorDal, EfColorDal>();
-
+            services.AddCors();
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -73,6 +73,8 @@ namespace WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader());
 
             app.UseHttpsRedirection();
 
