@@ -29,7 +29,7 @@ namespace Business.Concrete
         public IResult AddImage(IFormFile image, CarImage carImage)
         {
             string fileName = GenerateFileNameForCarId(image, carImage);
-            carImage.ImagePath = @"..\Entities\Images\" + fileName;
+            carImage.ImagePath = @".\Images\" + fileName;
             carImage.Date = DateTime.Now;
 
             var check = BusinessRules.Run(CheckImageCountForCar(_carImageDal, carImage),
@@ -52,9 +52,9 @@ namespace Business.Concrete
 
         }
 
-        public IResult Add(CarImage entity)
+        public IResult Add(CarImage image)
         {
-            _carImageDal.Add(entity);
+            _carImageDal.Add(image);
             return new SuccessResult(Messages.ImageAdded);
         }
 
@@ -81,7 +81,7 @@ namespace Business.Concrete
                 var noPic = new CarImage
                 {
                     CarId = carId,
-                    ImagePath = @"..\Entities\Images\Nophoto.jpg"
+                    ImagePath = @".\Images\Nophoto.jpg"
                 };
                 images.Add(noPic);
             }

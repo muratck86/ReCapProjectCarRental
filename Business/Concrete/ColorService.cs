@@ -38,7 +38,15 @@ namespace Business.Concrete
             var color = _colorDal.Get(b => b.Id == id);
             if (color == null)
                 return new ErrorDataResult<Color>(Messages.NoSuchColor);
-            return new SuccessDataResult<Color>(_colorDal.Get(c => c.Id == id));
+            return new SuccessDataResult<Color>(color);
+        }
+
+        public IDataResult<List<Color>> GetByName(string colorName)
+        {
+            var color = _colorDal.GetAll(c => c.Name == colorName);
+            if (color == null)
+                return new ErrorDataResult<List<Color>>(Messages.NoSuchColor);
+            return new SuccessDataResult<List<Color>>(color);
         }
 
         [SecuredOperation("admin")]

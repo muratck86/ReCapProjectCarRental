@@ -39,5 +39,19 @@ namespace WebAPI.Controllers
             return GetIActionResult(result);
         }
 
+        [HttpGet("getcardetailsbycolorname")]
+        public IActionResult GetCarDetailsByColorName(string colorName)
+        {
+            var result = _carService.GetCarDetailsByColorName(colorName);
+            return GetIActionResult(result);
+        }
+
+        [HttpGet("getcardetailsbybrandname")]
+        public IActionResult GetCarDetailsByBrandName(string brandName)
+        {
+            var result = _carService.GetCarDetailsByBrandName(brandName);
+            return GetIActionResult(result);
+        }
+
     }
 }

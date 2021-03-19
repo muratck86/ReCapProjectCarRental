@@ -56,5 +56,13 @@ namespace Business.Concrete
             _brandDal.Update(brand);
             return new Result(true, Messages.BrandUpdated);
         }
+
+        public IDataResult<List<Brand>> GetByName(string brandName)
+        {
+            var brands = _brandDal.GetAll(c => c.Name == brandName);
+            if (brands == null)
+                return new ErrorDataResult<List<Brand>>(Messages.NoSuchBrand);
+            return new SuccessDataResult<List<Brand>>(brands);
+        }
     }
 }

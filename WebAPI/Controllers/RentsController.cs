@@ -28,9 +28,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getrentdetails")]
-        public IActionResult GetRentDetails(Expression<Func<Rent, bool>> filter = null)
+        public IActionResult GetRentDetails()
         {
-            var result = _rentService.GetRentDetails(filter);
+            var result = _rentService.GetRentDetails();
             return GetIActionResult(result);
         }
 

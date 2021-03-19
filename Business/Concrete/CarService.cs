@@ -15,10 +15,14 @@ namespace Business.Concrete
     public class CarService : ICarService
     {
         ICarDal _carDal;
+        IColorService _colorService;
+        IBrandService _brandService;
 
-        public CarService(ICarDal carRentDal)
+        public CarService(ICarDal carRentDal, IColorService colorService, IBrandService brandService)
         {
             _carDal = carRentDal;
+            _colorService = colorService;
+            _brandService = brandService;
         }
 
 
@@ -73,5 +77,26 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
         }
 
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByColorName(string colorName)
+        {
+            var result = _colorService.GetByName(colorName);
+            List<CarDetailDto> carlist = new List<CarDetailDto>();
+            foreach (Color color in result.Data)
+            {
+                carlist.AddRange(_carDal.GetCarDetails(c => c.ColorId == color.Id));
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(carlist);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByBrandName(string brandName)
+        {
+            var result = _brandService.GetByName(brandName);
+            List<CarDetailDto> carList = new List<CarDetailDto>();
+            foreach (Brand brand in result.Data)
+            {
+                carList.AddRange(_carDal.GetCarDetails(c => c.BrandID == brand.Id));
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(carList);
+        }
     }
 }

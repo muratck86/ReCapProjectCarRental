@@ -28,7 +28,7 @@ namespace DataAccess.Concrete.EntitFramework
                                  select new RentDetailDto
                                  {
                                      Id = r.Id,
-                                     CarDetails = " " + c.Plate + " " + b.Name + " " + b.Name,
+                                     CarDetails = " " + c.Plate + " " + b.Name + " " + b.Model,
                                      UserName = cu.FirstName + " " + cu.LastName,
                                      CompanyName = comp.CompanyName,
                                      RentDate = r.RentDate,
